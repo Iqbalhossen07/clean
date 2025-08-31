@@ -155,7 +155,7 @@ if (!isset($_SESSION['email'])) {
                     <?php endif; ?>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          <?php
+                        <?php
 
 
                         $blogs = $mysqli->query("SELECT * FROM blog_table");
@@ -165,58 +165,58 @@ if (!isset($_SESSION['email'])) {
                         while ($row = $blogs->fetch_assoc()):
 
                         ?>
-                        <div
-                            class="bg-white rounded-lg overflow-hidden shadow-custom-sm border border-card-border-light hover:shadow-custom-md transition-shadow duration-200"
-                            data-aos="fade-up"
-                            data-aos-delay="100">
-                            <img
-                                src="blog_picture/<?php echo ($row['blog_picture']) ?>"
-                                alt="Blog Post Image"
-                                class="w-full h-48 object-cover" />
-                            <div class="p-5">
-                                <h3 class="text-xl font-bold text-primary mb-2 font-heading">
-                                    The Ultimate Guide to Eco-Friendly Cleaning
-                                </h3>
-                                <p class="text-sm text-text-dark-medium mb-4 line-clamp-3">
-                                         <?php
-                                    $text = strip_tags($row['blog_description']);
-                                    $trimmed_text = mb_strimwidth($text, 0, 70, '...');
-                                    echo nl2br($trimmed_text);
-                                    ?>
-                                </p>
-                                <div class="flex justify-between items-center text-sm text-text-light-medium mb-4">
-                                    <span><i class="fas fa-calendar-alt mr-1"></i> <?php echo ($row['blog_publish_date']) ?></span>
-                                    <span><i class="fas fa-user-edit mr-1"></i> <?php echo ($row['blog_author']) ?></span>
-                                </div>
-                                <div class="flex justify-end space-x-3">
-                                    <a
-                                        href="view-blog-post.html?id=1"
-                                        class="blog-action-btn view"
-                                        title="View Post">
-                                        <i class="fas fa-eye text-lg text-primary"></i>
-                                    </a>
-                                    <a
-                                        href="edit-blog-post.html?id=1"
-                                        class="blog-action-btn edit"
-                                        title="Edit Post">
-                                        <i class="fas fa-edit text-lg text-blue-400"></i>
-                                    </a>
-                                    <button
-                                        onclick="confirmDelete('The Ultimate Guide to Eco-Friendly Cleaning')"
-                                        class="blog-action-btn delete"
-                                        title="Delete Post">
-                                        <i class="fas fa-trash-alt text-lg text-red-400"></i>
-                                    </button>
+                            <div
+                                class="bg-white rounded-lg overflow-hidden shadow-custom-sm border border-card-border-light hover:shadow-custom-md transition-shadow duration-200"
+                                data-aos="fade-up"
+                                data-aos-delay="100">
+                                <img
+                                    src="blog_picture/<?php echo ($row['blog_picture']) ?>"
+                                    alt="Blog Post Image"
+                                    class="w-full h-48 object-cover" />
+                                <div class="p-5">
+                                    <h3 class="text-xl font-bold text-primary mb-2 font-heading">
+                                       <?php echo ($row['blog_title']) ?>
+                                    </h3>
+                                    <p class="text-sm text-text-dark-medium mb-4 line-clamp-3">
+                                        <?php
+                                        $text = strip_tags($row['blog_description']);
+                                        $trimmed_text = mb_strimwidth($text, 0, 70, '...');
+                                        echo nl2br($trimmed_text);
+                                        ?>
+                                    </p>
+                                    <div class="flex justify-between items-center text-sm text-text-light-medium mb-4">
+                                        <span><i class="fas fa-calendar-alt mr-1"></i> <?php echo ($row['blog_publish_date']) ?></span>
+                                        <span><i class="fas fa-user-edit mr-1"></i> <?php echo ($row['blog_author']) ?></span>
+                                    </div>
+                                    <div class="flex justify-end space-x-3">
+                                        <a
+                                            href="blogDes.php?blog_des_id=<?php echo $row['id']; ?>"
+                                            class="blog-action-btn view"
+                                            title="View Post">
+                                            <i class="fas fa-eye text-lg text-primary"></i>
+                                        </a>
+                                        <a
+                                            href="updateBlog.php?blog_update_id=<?php echo $row['id']; ?>"
+                                            class="blog-action-btn edit"
+                                            title="Edit Post">
+                                            <i class="fas fa-edit text-lg text-blue-400"></i>
+                                        </a>
+                                        <a href="logics.php?blog_delete_id=<?php echo $row['id']; ?>"
+                                            onclick="confirmDelete('<?php echo ($row['blog_title']) ?>')"
+                                            class="blog-action-btn delete"
+                                            title="Delete Post">
+                                            <i class="fas fa-trash-alt text-lg text-red-400"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                            <?php endwhile; ?>
+                        <?php endwhile; ?>
 
-                     
+
                     </div>
 
-               
+
                 </div>
             </main>
         </div>

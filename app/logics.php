@@ -252,54 +252,49 @@ if (isset($_POST['blog_add'])) {
 }
 
 
-// Update testimonial  Logic
+// Update blog  Logic
 
-if (isset($_POST['update_testimonial'])) {
-  $testimonail_update_id = $_POST['id'];
+if (isset($_POST['update_blog'])) {
+  $blog_update_id = $_POST['id'];
 
-  $client_name = $_POST['client_name'];
-  $client_designation = $_POST['client_designation'];
-  $client_description = mysqli_real_escape_string($mysqli, $_POST['client_description']);
+  $blog_title = $_POST['blog_title'];
+  $blog_category = $_POST['blog_category'];
+  $blog_author = mysqli_real_escape_string($mysqli, $_POST['blog_author']);
+  $blog_description = mysqli_real_escape_string($mysqli, $_POST['blog_description']);
+  $blog_publish_date = mysqli_real_escape_string($mysqli, $_POST['blog_publish_date']);
 
 
-  $client_picture = $_FILES['client_picture']['name'];
+  $blog_picture = $_FILES['blog_picture']['name'];
   $old_image = $_POST['old_image'];
 
-  if ($client_picture != '') {
-    $client_picture = $_FILES['client_picture']['name'];
+  if ($blog_picture != '') {
+    $blog_picture = $_FILES['blog_picture']['name'];
   } else {
-    $client_picture = $old_image;
+    $blog_picture = $old_image;
   }
-  $tmpName = $_FILES['client_picture']['tmp_name'];
-  $folder = 'client_picture/' . $client_picture;
+  $tmpName = $_FILES['blog_picture']['tmp_name'];
+  $folder = 'blog_picture/' . $blog_picture;
 
 
-  $mysqli->query("UPDATE `testimonials` SET `client_name` = '$client_name', `client_designation` = '$client_designation', `client_description` = '$client_description', `client_picture` = '$client_picture' WHERE id=$testimonail_update_id");
+  $mysqli->query("UPDATE `blog_table` SET `blog_title` = '$blog_title', `blog_category` = '$blog_category', `blog_author` = '$blog_author', `blog_description` = '$blog_description', `blog_publish_date` = '$blog_publish_date', `blog_picture` = '$blog_picture' WHERE id=$blog_update_id");
 
   move_uploaded_file($tmpName, $folder);
-  $_SESSION['message'] = "Testimonial has been updated";
+  $_SESSION['message'] = "Blog has been updated";
   $_SESSION['message_type'] = 'warning';
-  header('location:testimonial.php');
+  header('location:blog.php');
 }
 
 
-// Delete Testimonial  Logic
+// Delete blog  Logic
 
-if (isset($_GET['testimonial_des_id'])) {
-  $id = $_GET['testimonial_des_id'];
+if (isset($_GET['blog_delete_id'])) {
+  $id = $_GET['blog_delete_id'];
 
-  $mysqli->query("DELETE FROM testimonials WHERE id=$id");
+  $mysqli->query("DELETE FROM blog_table WHERE id=$id");
 
-  $_SESSION['message'] = "Testimonial has been deleted";
+  $_SESSION['message'] = "Blog has been deleted";
   $_SESSION['message_type'] = 'danger';
-  header("location:testimonial.php");
+  header("location:blog.php");
 }
 
 // --------------------- Testimonail logic stendart ------------------------------------
-
-
-
-
-
-
-
