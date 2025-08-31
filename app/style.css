@@ -1,0 +1,69 @@
+      /* Custom styles */
+      html, body {
+        overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+      }
+      .sidebar-logo {
+        background: linear-gradient(135deg, theme('colors.primary'), theme('colors.cleaning-dark'));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: theme('colors.gray.200'); /* Changed to gray-200 for consistency */
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: theme('colors.primary');
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.cleaning-dark');
+      }
+
+      .dashboard-topbar {
+        transition: box-shadow 0.3s ease-in-out; /* Smooth transition for shadow */
+      }
+      .dashboard-topbar.scrolled {
+        box-shadow: theme('boxShadow.custom-md'); /* Using custom shadow */
+      }
+
+      /* Body scroll lock when sidebar is open */
+      .body-no-scroll {
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+      }
+
+      /* Mobile Sidebar Specific Styles for proper hiding/showing */
+      #sidebar {
+          display: none; /* Hide by default on mobile */
+          transform: translateX(-100%); /* Ensure it starts off-screen */
+      }
+      /* md:flex for desktop displays */
+      @media (min-width: 768px) {
+          #sidebar {
+              display: flex !important; /* Force flex on md and up */
+              transform: translateX(0) !important; /* Ensure it's visible on md and up */
+          }
+      }
+      #sidebar.mobile-open {
+          display: flex; /* Show when active on mobile */
+          transform: translateX(0); /* Ensure it's fully visible */
+      }
+      #sidebar.mobile-closed {
+          transform: translateX(-100%); /* Force hidden on mobile when not active */
+      }
+
+      /* Static Pie Chart styles */
+      .pie-chart-segment {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          clip: rect(0, 50%, 100%, 0);
+          transform-origin: 50% 50%;
+      }
+      /* Individual segments will be rotated and colored with Tailwind classes */
