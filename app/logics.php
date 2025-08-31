@@ -57,7 +57,7 @@ if (isset($_POST['adminlogin'])) {
 
 
 
-// Add Blog  Logic
+// Add service  Logic
 if (isset($_POST['service_add'])) {
   $service_title = $_POST['service_title'];
   $service_category = $_POST['service_category'];
@@ -67,7 +67,7 @@ if (isset($_POST['service_add'])) {
   // Image upload
   $service_image = $_FILES['service_image']['name'];
   $tmpName = $_FILES['service_image']['tmp_name'];
-  $folder  = 'blogImage/' . $service_image;
+  $folder  = 'service_image/' . $service_image;
 
   // Insert query
   $mysqli->query("INSERT INTO service_table (service_title, service_category, service_description,  service_image) 
@@ -82,4 +82,48 @@ if (isset($_POST['service_add'])) {
 
   header("location:services.php");
   exit();
+}
+
+
+// Update service  Logic
+
+if (isset($_POST['udpate_service'])) {
+  $service_update_id = $_POST['id'];
+
+  $service_title = $_POST['service_title'];
+  $service_category = $_POST['service_category'];
+  $service_description = mysqli_real_escape_string($mysqli, $_POST['service_description']);
+
+
+  $service_image = $_FILES['service_image']['name'];
+  $old_image = $_POST['old_image'];
+
+  if ($service_image != '') {
+    $service_image = $_FILES['service_image']['name'];
+  } else {
+    $service_image = $old_image;
+  }
+  $tmpName = $_FILES['service_image']['tmp_name'];
+  $folder = 'service_image/' . $service_image;
+
+
+  $mysqli->query("UPDATE `service_table` SET `service_title` = '$service_title', `service_category` = '$service_category', `service_description` = '$service_description', `service_image` = '$service_image' WHERE id=$service_update_id");
+
+  move_uploaded_file($tmpName, $folder);
+  $_SESSION['message'] = "Service has been updated";
+  $_SESSION['message_type'] = 'warning';
+  header('location:services.php');
+}
+
+
+// Delete Blog  Logic
+
+if (isset($_GET['service_update_id'])) {
+  $id = $_GET['service_update_id'];
+
+  $mysqli->query("DELETE FROM service_table WHERE id=$id");
+
+  $_SESSION['message'] = "Service has been deleted";
+  $_SESSION['message_type'] = 'danger';
+  header("location:services.php");
 }
