@@ -54,12 +54,12 @@
             <i class="fas fa-quote-right text-lg"></i>
             <span class="font-medium">Testimonials</span>
           </a>
-          <a
-            href="#"
+       <a
+            href="blog.php"
             class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
           >
-            <i class="fas fa-cog text-lg"></i>
-            <span class="font-medium">Settings</span>
+            <i class="fas fa-blog text-lg"></i>
+            <span class="font-medium">Blog Posts</span>
           </a>
           <a
             href="logout.php"

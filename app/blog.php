@@ -10,7 +10,7 @@ if (!isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CleanPro - Customer Testimonials</title>
+    <title>CleanPro - Blog Posts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -53,7 +53,7 @@ if (!isset($_SESSION['email'])) {
     </script>
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,7 +78,7 @@ if (!isset($_SESSION['email'])) {
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                     <h1 class="text-2xl font-bold font-heading text-text-dark-high">
-                        Customer Testimonials
+                        Blog Posts
                     </h1>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -109,15 +109,14 @@ if (!isset($_SESSION['email'])) {
                     data-aos-delay="100">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-text-dark-high font-heading">
-                            All Testimonials
+                            All Blog Posts
                         </h2>
                         <a
-                            href="addTestimonial.php"
+                            href="addBlog.php"
                             class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-md shadow-custom-md text-white bg-primary hover:bg-cleaning-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 transform hover:scale-105">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Testimonial
+                            <i class="fas fa-plus-circle mr-2"></i> Add New Post
                         </a>
                     </div>
-
 
                     <?php if (isset($_SESSION['message'])): ?>
                         <?php
@@ -156,69 +155,69 @@ if (!isset($_SESSION['email'])) {
                     <?php endif; ?>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <?php
+                          <?php
 
 
-                        $testimonails = $mysqli->query("SELECT * FROM testimonials");
+                        $blogs = $mysqli->query("SELECT * FROM blog_table");
 
 
                         // Fetch and display the titles
-                        while ($row = $testimonails->fetch_assoc()):
+                        while ($row = $blogs->fetch_assoc()):
 
                         ?>
-                            <div
-                                class="bg-white rounded-lg overflow-hidden shadow-custom-sm border border-card-border-light hover:shadow-custom-md transition-shadow duration-200 p-6 flex flex-col"
-                                data-aos="fade-up"
-                                data-aos-delay="100">
-                                <div class="flex items-center mb-4">
-                                    <img
-                                        src="client_picture/<?php echo ($row['client_picture']) ?>"
-                                        alt="Client Name"
-                                        class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-primary/50" />
-                                    <div>
-                                        <h3 class="text-xl font-bold text-text-dark-high font-heading">
-                                            <?php echo ($row['client_name']) ?>
-                                        </h3>
-                                        <p class="text-sm text-text-dark-medium"><?php echo ($row['client_designation']) ?></p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center mb-3">
-                                    <i class="fas fa-star star-filled"></i>
-                                    <i class="fas fa-star star-filled"></i>
-                                    <i class="fas fa-star star-filled"></i>
-                                    <i class="fas fa-star star-filled"></i>
-                                    <i class="fas fa-star star-filled"></i>
-                                </div>
-                                <p class="text-sm text-text-dark-medium flex-grow mb-4 line-clamp-4">
-                                    <?php
-                                    $text = strip_tags($row['client_description']);
+                        <div
+                            class="bg-white rounded-lg overflow-hidden shadow-custom-sm border border-card-border-light hover:shadow-custom-md transition-shadow duration-200"
+                            data-aos="fade-up"
+                            data-aos-delay="100">
+                            <img
+                                src="blog_picture/<?php echo ($row['blog_picture']) ?>"
+                                alt="Blog Post Image"
+                                class="w-full h-48 object-cover" />
+                            <div class="p-5">
+                                <h3 class="text-xl font-bold text-primary mb-2 font-heading">
+                                    The Ultimate Guide to Eco-Friendly Cleaning
+                                </h3>
+                                <p class="text-sm text-text-dark-medium mb-4 line-clamp-3">
+                                         <?php
+                                    $text = strip_tags($row['blog_description']);
                                     $trimmed_text = mb_strimwidth($text, 0, 70, '...');
                                     echo nl2br($trimmed_text);
                                     ?>
                                 </p>
-                                <div class="flex justify-end space-x-3 mt-auto">
-                                    <a href="testimonialDes.php?testimonial_des_id=<?php echo $row['id']; ?>" class="action-btn view"
-                                        title="View Testimonial">
+                                <div class="flex justify-between items-center text-sm text-text-light-medium mb-4">
+                                    <span><i class="fas fa-calendar-alt mr-1"></i> <?php echo ($row['blog_publish_date']) ?></span>
+                                    <span><i class="fas fa-user-edit mr-1"></i> <?php echo ($row['blog_author']) ?></span>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a
+                                        href="view-blog-post.html?id=1"
+                                        class="blog-action-btn view"
+                                        title="View Post">
                                         <i class="fas fa-eye text-lg text-primary"></i>
                                     </a>
-                                    <a href="updateTestimonial.php?testimonail_update_id=<?php echo $row['id']; ?>" class="action-btn edit"
-                                        title="Edit Testimonial">
-                                        <i class="fas fa-edit text-lg text-orange-400"></i>
+                                    <a
+                                        href="edit-blog-post.html?id=1"
+                                        class="blog-action-btn edit"
+                                        title="Edit Post">
+                                        <i class="fas fa-edit text-lg text-blue-400"></i>
                                     </a>
-                                    <a href="logics.php?testimonial_des_id=<?php echo $row['id']; ?>"
-                                        onclick="confirmDelete('<?php echo ($row['client_name']) ?>')" class="action-btn delete"
-                                        title="Delete Testimonial">
-                                        <i class="fas fa-trash-alt text-lg text-red-600"></i>
-                                    </a>
+                                    <button
+                                        onclick="confirmDelete('The Ultimate Guide to Eco-Friendly Cleaning')"
+                                        class="blog-action-btn delete"
+                                        title="Delete Post">
+                                        <i class="fas fa-trash-alt text-lg text-red-400"></i>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                        <?php endwhile; ?>
+                            <?php endwhile; ?>
 
-
-
-
+                     
                     </div>
+
+               
+                </div>
             </main>
         </div>
     </div>
