@@ -1,15 +1,31 @@
 <?php include('db.php');
 if (!isset($_SESSION['email'])) {
-  header('Location: login.php');
+    header('Location: login.php');
 }
 
+
+if (isset($_GET['testimonail_update_id'])) {
+    $testimonail_update_id = $_GET['testimonail_update_id'];
+    $testimonial_update_id_result = $mysqli->query("SELECT * FROM testimonials WHERE id='$testimonail_update_id' ");
+    if (!empty($testimonial_update_id_result)) {
+        $row = $testimonial_update_id_result->fetch_array();
+
+        $client_name = $row['client_name'];
+        $client_designation = $row['client_designation'];
+        $client_description = $row['client_description'];
+        $client_picture = $row['client_picture'];
+        
+    }
+
+   
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CleanPro - Add Service</title>
+    <title>CleanPro -  Update Testimonial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -66,11 +82,12 @@ if (!isset($_SESSION['email'])) {
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
  <link rel="stylesheet" href="style.css">
   </head>
   <body class="bg-dashboard-bg text-text-dark-medium font-sans h-screen">
     <div class="flex h-screen bg-dashboard-bg">
- <?php include('side.php') ?>
+       <?php include('side.php') ?>
 
       <div class="flex-1 flex flex-col md:ml-64 min-w-0">
         <header
@@ -84,7 +101,7 @@ if (!isset($_SESSION['email'])) {
               <i class="fas fa-bars text-xl"></i>
             </button>
             <h1 class="text-2xl font-bold font-heading text-text-dark-high">
-              Add New Service
+             Update Testimonial
             </h1>
           </div>
           <div class="flex items-center space-x-4">
@@ -116,59 +133,58 @@ if (!isset($_SESSION['email'])) {
           class="flex-1 p-6 bg-dashboard-bg custom-scrollbar overflow-y-auto"
         >
           <div
-            class="max-w-8xl mx-auto bg-white p-8 rounded-xl shadow-custom-md border border-card-border-light"
+            class="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-custom-md border border-card-border-light"
             data-aos="fade-up"
             data-aos-delay="100"
           >
             <form action="logics.php" method="POST" class="space-y-6" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?php echo $testimonail_update_id ?>">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label
-                    for="title"
+                    for="client_name"
                     class="block text-sm font-medium text-text-dark-high mb-1"
-                    >Service Title</label
+                    >Client Name</label
                   >
                   <input
                     type="text"
-                    name="service_title"
-                    id="title"
+                    name="client_name" value="<?php echo $client_name ?>"
+                    id="client_name"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                    placeholder="e.g., Deep Kitchen Cleaning"
+                    placeholder="e.g., Jane Smith"
                     required
                   />
                 </div>
 
-              
-
                 <div>
                   <label
-                    for="price"
+                    for="client_title"
                     class="block text-sm font-medium text-text-dark-high mb-1"
-                    >Category</label
+                    >Client Title / Company</label
                   >
                   <input
                     type="text"
-                    name="service_category"
-                    id="price"
-                    step="0.01"
+                    name="client_designation" value="<?php echo $client_designation ?>"
+                    id="client_title"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                    placeholder="e.g., Residential,Specialized,Commercial"
-                    required
+                    placeholder="e.g., Homeowner, CEO of Acme Inc."
                   />
                 </div>
               </div>
 
               <div>
                 <label
-                  for="picture"
+                  for="client_photo"
                   class="block text-sm font-medium text-text-dark-high mb-1"
-                  >Service Picture</label
+                  >Client Photo</label
                 >
                 <div
+                  id="image-upload-area"
                   class="relative file-input-box min-h-[150px] w-full rounded-md"
                   style="border: 2px dotted #00A650 !important;"
                 >
                   <div
+                    id="upload-placeholder"
                     class="flex flex-col items-center justify-center h-full w-full"
                   >
                     <i class="fas fa-cloud-upload-alt text-4xl text-primary mb-2"></i>
@@ -182,38 +198,53 @@ if (!isset($_SESSION['email'])) {
                       PNG, JPG, GIF up to 10MB.
                     </p>
                   </div>
+                  <div
+                    id="image-preview"
+                    class="image-preview-container hidden"
+                  >
+                    <img src="" alt="Client Photo Preview" class="max-w-full max-h-full object-contain" />
+                    <span
+                      class="remove-image-btn cursor-pointer"
+                      id="remove-image-btn"
+                      >&times;</span
+                    >
+                  </div>
                   <input
                     type="file"
-                    name="service_image"
-                    id="picture"
+                    name="client_picture"
+                    id="client_photo"
                     accept="image/*"
                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
+                <input type="hidden" name="old_image" value="<?php echo $client_picture ?>">
                 </div>
               </div>
 
+
               <div>
                 <label
-                  for="description"
+                  for="testimonial_content"
                   class="block text-sm font-medium text-text-dark-high mb-1"
-                  >Service Description</label
+                  >Testimonial Content</label
                 >
                 <textarea
-                  id="description"
-                  name="service_description"
+                  id="testimonial_content"
+                  name="client_description"
                   rows="5"
                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                  placeholder="Provide a detailed description of the service..."
+                  placeholder="Write the client's testimonial here..."
                   required
-                ></textarea>
+                ><?php echo $client_description ?></textarea>
               </div>
+
+         
 
               <div class="pt-4">
                 <button
-                  type="submit" name="service_add"
+                  type="submit" name="update_testimonial"
                   class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-custom-md rounded-md font-semibold text-white bg-primary hover:bg-cleaning-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 transform hover:scale-105"
                 >
-                  <i class="fas fa-plus-circle mr-2"></i> Add Service
+                  <i class="fas fa-plus-circle mr-2"></i> Update Testimonial
                 </button>
               </div>
             </form>

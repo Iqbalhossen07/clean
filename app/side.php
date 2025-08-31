@@ -48,11 +48,11 @@
             <span class="font-medium">Services</span>
           </a>
           <a
-            href="#"
+            href="testimonial.php"
             class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
           >
-            <i class="fas fa-chart-line text-lg"></i>
-            <span class="font-medium">Reports</span>
+            <i class="fas fa-quote-right text-lg"></i>
+            <span class="font-medium">Testimonials</span>
           </a>
           <a
             href="#"

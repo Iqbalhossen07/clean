@@ -6,7 +6,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 
-// admin  logic
+// --------------------- admin login logic start ------------------------------------
+
 
 if (isset($_POST['adminlogin'])) {
 
@@ -55,6 +56,11 @@ if (isset($_POST['adminlogin'])) {
   }
 }
 
+// --------------------- admin login logic end ------------------------------------
+
+
+
+// --------------------- service logic start ------------------------------------
 
 
 // Add service  Logic
@@ -116,7 +122,7 @@ if (isset($_POST['udpate_service'])) {
 }
 
 
-// Delete Blog  Logic
+// Delete service  Logic
 
 if (isset($_GET['service_update_id'])) {
   $id = $_GET['service_update_id'];
@@ -127,3 +133,92 @@ if (isset($_GET['service_update_id'])) {
   $_SESSION['message_type'] = 'danger';
   header("location:services.php");
 }
+
+
+// --------------------- service logic end ------------------------------------
+
+
+
+
+
+// --------------------- Testimonail logic start ------------------------------------
+
+// Add testimonial  Logic
+if (isset($_POST['add_testimonial'])) {
+  $client_name = $_POST['client_name'];
+  $client_designation = $_POST['client_designation'];
+  $client_description = mysqli_real_escape_string($mysqli, $_POST['client_description']);
+
+
+  // Image upload
+  $client_picture = $_FILES['client_picture']['name'];
+  $tmpName = $_FILES['client_picture']['tmp_name'];
+  $folder  = 'client_picture/' . $client_picture;
+
+  // Insert query
+  $mysqli->query("INSERT INTO testimonials (client_name, client_designation, client_description,  client_picture) 
+                  VALUES ('$client_name', '$client_designation', '$client_description',  '$client_picture')");
+
+  // Move uploaded file
+  move_uploaded_file($tmpName, $folder);
+
+  // Flash message
+  $_SESSION['message'] = "Testimonial has been added successfully!";
+  $_SESSION['message_type'] = 'success';
+
+  header("location:testimonial.php");
+  exit();
+}
+
+
+// Update testimonial  Logic
+
+if (isset($_POST['update_testimonial'])) {
+  $testimonail_update_id = $_POST['id'];
+
+  $client_name = $_POST['client_name'];
+  $client_designation = $_POST['client_designation'];
+  $client_description = mysqli_real_escape_string($mysqli, $_POST['client_description']);
+
+
+  $client_picture = $_FILES['client_picture']['name'];
+  $old_image = $_POST['old_image'];
+
+  if ($client_picture != '') {
+    $client_picture = $_FILES['client_picture']['name'];
+  } else {
+    $client_picture = $old_image;
+  }
+  $tmpName = $_FILES['client_picture']['tmp_name'];
+  $folder = 'client_picture/' . $client_picture;
+
+
+  $mysqli->query("UPDATE `testimonials` SET `client_name` = '$client_name', `client_designation` = '$client_designation', `client_description` = '$client_description', `client_picture` = '$client_picture' WHERE id=$testimonail_update_id");
+
+  move_uploaded_file($tmpName, $folder);
+  $_SESSION['message'] = "Testimonial has been updated";
+  $_SESSION['message_type'] = 'warning';
+  header('location:testimonial.php');
+}
+
+
+// Delete Testimonial  Logic
+
+if (isset($_GET['testimonial_des_id'])) {
+  $id = $_GET['testimonial_des_id'];
+
+  $mysqli->query("DELETE FROM testimonials WHERE id=$id");
+
+  $_SESSION['message'] = "Testimonial has been deleted";
+  $_SESSION['message_type'] = 'danger';
+  header("location:testimonial.php");
+}
+
+// --------------------- Testimonail logic stendart ------------------------------------
+
+
+
+
+
+
+

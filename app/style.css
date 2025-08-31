@@ -30,6 +30,8 @@
         box-shadow: theme('boxShadow.custom-md'); /* Using custom shadow */
       }
 
+      
+
       /* Body scroll lock when sidebar is open */
       .body-no-scroll {
           overflow: hidden;
@@ -67,3 +69,6 @@
           transform-origin: 50% 50%;
       }
       /* Individual segments will be rotated and colored with Tailwind classes */
+
+
+      

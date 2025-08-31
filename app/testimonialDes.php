@@ -1,15 +1,31 @@
 <?php include('db.php');
 if (!isset($_SESSION['email'])) {
-  header('Location: login.php');
+    header('Location: login.php');
 }
 
+
+if (isset($_GET['testimonial_des_id'])) {
+    $testimonial_des_id = $_GET['testimonial_des_id'];
+    $testimonail_view_id_result = $mysqli->query("SELECT * FROM testimonials WHERE id='$testimonial_des_id' ");
+    if (!empty($testimonail_view_id_result)) {
+        $row = $testimonail_view_id_result->fetch_array();
+
+        $client_name = $row['client_name'];
+        $client_designation = $row['client_designation'];
+        $client_description = $row['client_description'];
+        $client_picture = $row['client_picture'];
+        
+    }
+
+   
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CleanPro - Add Service</title>
+    <title>CleanPro - Testimonial Details</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -66,11 +82,12 @@ if (!isset($_SESSION['email'])) {
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
- <link rel="stylesheet" href="style.css">
+
+   <link rel="stylesheet" href="style.css">
   </head>
   <body class="bg-dashboard-bg text-text-dark-medium font-sans h-screen">
     <div class="flex h-screen bg-dashboard-bg">
- <?php include('side.php') ?>
+  <?php include('side.php') ?>
 
       <div class="flex-1 flex flex-col md:ml-64 min-w-0">
         <header
@@ -84,7 +101,7 @@ if (!isset($_SESSION['email'])) {
               <i class="fas fa-bars text-xl"></i>
             </button>
             <h1 class="text-2xl font-bold font-heading text-text-dark-high">
-              Add New Service
+              Testimonial Details
             </h1>
           </div>
           <div class="flex items-center space-x-4">
@@ -116,107 +133,41 @@ if (!isset($_SESSION['email'])) {
           class="flex-1 p-6 bg-dashboard-bg custom-scrollbar overflow-y-auto"
         >
           <div
-            class="max-w-8xl mx-auto bg-white p-8 rounded-xl shadow-custom-md border border-card-border-light"
+            class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-custom-md border border-card-border-light"
             data-aos="fade-up"
             data-aos-delay="100"
           >
-            <form action="logics.php" method="POST" class="space-y-6" enctype="multipart/form-data">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    for="title"
-                    class="block text-sm font-medium text-text-dark-high mb-1"
-                    >Service Title</label
-                  >
-                  <input
-                    type="text"
-                    name="service_title"
-                    id="title"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                    placeholder="e.g., Deep Kitchen Cleaning"
-                    required
-                  />
-                </div>
+            <div class="space-y-6">
+              <div class="flex flex-col items-center text-center mb-6">
+                <img
+                  src="client_picture/<?php echo $client_picture ?>"
+                  alt="Sarah Johnson"
+                  class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-primary/50 shadow-md"
+                />
+                <h2 class="text-3xl font-heading font-bold text-text-dark-high">
+                 <?php echo $client_name ?>
+                </h2>
+                <p class="text-lg font-semibold text-cleaning-primary"><?php echo $client_designation ?></p>
+              </div>
 
-              
-
-                <div>
-                  <label
-                    for="price"
-                    class="block text-sm font-medium text-text-dark-high mb-1"
-                    >Category</label
-                  >
-                  <input
-                    type="text"
-                    name="service_category"
-                    id="price"
-                    step="0.01"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                    placeholder="e.g., Residential,Specialized,Commercial"
-                    required
-                  />
-                </div>
+              <div class="flex justify-center items-center mb-6">
+                <i class="fas fa-star text-2xl star-filled mr-1"></i>
+                <i class="fas fa-star text-2xl star-filled mr-1"></i>
+                <i class="fas fa-star text-2xl star-filled mr-1"></i>
+                <i class="fas fa-star text-2xl star-filled mr-1"></i>
+                <i class="fas fa-star text-2xl star-filled"></i>
               </div>
 
               <div>
-                <label
-                  for="picture"
-                  class="block text-sm font-medium text-text-dark-high mb-1"
-                  >Service Picture</label
-                >
-                <div
-                  class="relative file-input-box min-h-[150px] w-full rounded-md"
-                  style="border: 2px dotted #00A650 !important;"
-                >
-                  <div
-                    class="flex flex-col items-center justify-center h-full w-full"
-                  >
-                    <i class="fas fa-cloud-upload-alt text-4xl text-primary mb-2"></i>
-                    <p class="text-base font-semibold text-gray-700">
-                      Drag & Drop or
-                      <span class="text-primary hover:underline cursor-pointer"
-                        >Browse File</span
-                      >
-                    </p>
-                    <p class="mt-2 text-xs text-gray-600">
-                      PNG, JPG, GIF up to 10MB.
-                    </p>
-                  </div>
-                  <input
-                    type="file"
-                    name="service_image"
-                    id="picture"
-                    accept="image/*"
-                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                </div>
+                <p class="text-sm font-medium text-text-dark-medium mb-1">Testimonial:</p>
+                <p class="text-text-dark-medium leading-relaxed italic">
+                  <?php echo $client_description ?>
+                </p>
               </div>
 
-              <div>
-                <label
-                  for="description"
-                  class="block text-sm font-medium text-text-dark-high mb-1"
-                  >Service Description</label
-                >
-                <textarea
-                  id="description"
-                  name="service_description"
-                  rows="5"
-                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                  placeholder="Provide a detailed description of the service..."
-                  required
-                ></textarea>
-              </div>
-
-              <div class="pt-4">
-                <button
-                  type="submit" name="service_add"
-                  class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-custom-md rounded-md font-semibold text-white bg-primary hover:bg-cleaning-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 transform hover:scale-105"
-                >
-                  <i class="fas fa-plus-circle mr-2"></i> Add Service
-                </button>
-              </div>
-            </form>
+          
+             
+            </div>
           </div>
         </main>
       </div>
